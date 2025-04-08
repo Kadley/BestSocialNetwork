@@ -1,0 +1,14 @@
+@startuml sequence
+actor Utilisateur
+participant Système
+participant Propriétaire
+
+Utilisateur -> Système : Rechercher un bien
+Système -> Système : Filtrage des résultats
+Utilisateur -> Système : Sélectionner un bien
+Système -> Utilisateur : Bien disponible
+Utilisateur -> Système : Effectuer une réservation
+Système -> Propriétaire : Notification de réservation
+Propriétaire -> Système : Validation de la réservation
+Système -> Utilisateur : Notification de réservation
+@enduml

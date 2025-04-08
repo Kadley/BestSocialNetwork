@@ -1,0 +1,28 @@
+services:
+  # On définit un service
+  main:
+    # On indique l'image à utiliser
+    build:
+      # le contexte permet de définir le répertoire (dossier) de travail
+      context: ./main
+      # On peut aussi définir le Dockerfile à utiliser
+      dockerfile: Dockerfile
+    ports:
+      # On expose le port 3000 de l'hôte vers le port 3000 du conteneur
+      # 'hote:conteneur'
+      - '3000:3000'
+    # Je vais partager un volume entre mon hôte et le conteneur
+    # volumes : permet de partager des fichiers entre l'hôte et le conteneur
+    volumes:
+      # On va partager le dossier ./main avec le conteneur
+      # !!!! On fait ça uniquement en développement !!!!
+      - ./main:/app
+      # Je vais ignorer le partage du dossier node_modules
+      # A chaque ajoute de dépendance, je vais devoir relancer le build
+      # Certaines dépendances sont compilées et spécifiques à une architecture (ex: macOS, Linux, Windows)
+      - /app/node_modules
+
+    environment:
+      - DEBUG=main:*
+    # On va spécifier la commande à exécuter
+    command: pnpm dev

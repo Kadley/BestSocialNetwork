@@ -1,0 +1,21 @@
+@startuml deployment
+node "Utilisateur" {
+  [Navigateur Web] 
+}
+
+node "Hébergement Frontend (CDN, Vercel, Netlify, S3)" {
+  [React App]
+}
+
+node "Serveur d'API (VPS, EC2, Heroku, Kubernetes)" {
+  [Node.js API]
+
+}
+
+database "PostgreSQL" {
+  [Base de données PostgreSQL]
+}
+
+[Navigateur Web] -- [React App] : HTTPS
+[React App] -- [Node.js API] : API REST
+[Node.js API] -- [Base de données PostgreSQL] : SQL Queries

@@ -1,0 +1,18 @@
+@startuml activity
+start
+:Rechercher un bien;
+:Sélectionner le bien;
+:Renseigner les dates;
+if (Bien disponible ?) then (Oui)
+  :Effectuer une réservation;
+  :Envoyer notification au propriétaire;
+  if(Propriétaire valide la réservation ?) then (Oui)
+    :Envoyer notification à l'utilisateur de la réservation;
+  else (Non)
+    :Notifier l'utilisateur de l'annulation avec la raison;
+  endif
+else (Non)
+  :Afficher non disponible;
+endif
+stop
+@enduml

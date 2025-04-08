@@ -1,0 +1,9 @@
+# Cas d'Utilisation
+
+## But
+
+Le but de ce document est de définir les cas d'utilisation de l'application.
+
+Exemple avec [plantuml](https://editor.plantuml.com/uml/NOyn3eCm34Ltdy9YPoZi5LMdpXK7i88BLY51ZjEbwe4u1nShgUZ2zlNz_fFSH2ErD8qmyiFG0ghqWs4doiuaU21dGV7cNsBhWXHHzger6IMIST9S9u2Pt9DwnakoWRt9Gnnb1xu1CKLs51cBEwCBtczwrY8ls-lfUDTrOSNaDtAQZNUiEc3TkXnDDNm01Clo_DF-KmLfJpL0mxxB7ty1)
+
+[![](https://img.plantuml.biz/plantuml/svg/NOyn3eCm34Ltdy9YPoZi5LMdpXK7i88BLY51ZjEbwe4u1nShgUZ2zlNz_fFSH2ErD8qmyiFG0ghqWs4doiuaU21dGV7cNsBhWXHHzger6IMIST9S9u2Pt9DwnakoWRt9Gnnb1xu1CKLs51cBEwCBtczwrY8ls-lfUDTrOSNaDtAQZNUiEc3TkXnDDNm01Clo_DF-KmLfJpL0mxxB7ty1)](https://editor.plantuml.com/uml/NOyn3eCm34Ltdy9YPoZi5LMdpXK7i88BLY51ZjEbwe4u1nShgUZ2zlNz_fFSH2ErD8qmyiFG0ghqWs4doiuaU21dGV7cNsBhWXHHzger6IMIST9S9u2Pt9DwnakoWRt9Gnnb1xu1CKLs51cBEwCBtczwrY8ls-lfUDTrOSNaDtAQZNUiEc3TkXnDDNm01Clo_DF-KmLfJpL0mxxB7ty1)
