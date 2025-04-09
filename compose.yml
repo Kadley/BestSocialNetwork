@@ -26,3 +26,39 @@ services:
       - DEBUG=main:*
     # On va spécifier la commande à exécuter
     command: pnpm dev
+
+  user:
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./user:/app
+      - /app/node_modules
+    environment:
+      - DEBUG=user:*
+    # On indique que notre service user dépend du service user_db
+    depends_on:
+      - user_db
+    command: pnpm dev
+
+  user_db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: userdb
+      POSTGRES_USER: userdb
+      POSTGRES_DB: userdb
+    volumes:
+      # On va partager le volume user_db_data avec le conteneur
+      # Cela va permettre de garder les données même si le conteneur est supprimé
+      - user_db_data:/var/lib/postgresql/data
+    ports:
+      # On fait en sorte de pouvoir accéder à la base de données depuis l'extérieur
+      # On expose le port 5434 de l'hôte vers le port 5432 du conteneur pour éviter les conflits avec une autre instance de postgres
+      - '5434:5432'
+
+volumes:
+  user_db_data:

@@ -11,7 +11,7 @@ app.use('*', (c, next) => {
 
 app.get('/', (c) => {
   debugLog('Debug log: Hello Hono!')
-  return c.text('Hello Hono!')
+  return c.text('Hello Main!')
 })
 
 serve({
