@@ -13,9 +13,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model Publication {
-  id          String   @id @default(uuid()) @map("ref_publication")
-  contenu     String
-  createdAt   DateTime @default(now()) @map("date_creation")
-  updatedAt   DateTime @updatedAt @map("date_modification")
+model Post {
+  id          String   @id @default(uuid()) @map("ref_publication") // ID in the database
+  content     String   @map("contenu")                             // Content of the post
+  createdAt   DateTime @default(now()) @map("date_creation")       // Creation date
+  updatedAt   DateTime @updatedAt @map("date_modification")       // Modification date
+
+  @@map("Publication") // The table name in the database is "Publication"
 }
+

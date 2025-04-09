@@ -1,9 +1,8 @@
--- CreateTable
-CREATE TABLE "Publication" (
-    "ref_publication" TEXT NOT NULL,
-    "contenu" TEXT NOT NULL,
-    "date_creation" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "date_modification" TIMESTAMP(3) NOT NULL,
+-- Renommer la table Publication en Post
+ALTER TABLE "Publication" RENAME TO "Post";
 
-    CONSTRAINT "Publication_pkey" PRIMARY KEY ("ref_publication")
-);
+-- Renommer les colonnes
+ALTER TABLE "Post" RENAME COLUMN "ref_publication" TO "id";
+ALTER TABLE "Post" RENAME COLUMN "contenu" TO "content";
+ALTER TABLE "Post" RENAME COLUMN "date_creation" TO "createdAt";
+ALTER TABLE "Post" RENAME COLUMN "date_modification" TO "updatedAt";
