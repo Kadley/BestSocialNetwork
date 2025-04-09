@@ -19,6 +19,6 @@ model Post {
   createdAt   DateTime @default(now()) @map("date_creation")       // Creation date
   updatedAt   DateTime @updatedAt @map("date_modification")       // Modification date
 
-  @@map("Publication") // The table name in the database is "Publication"
+ 
 }
 
