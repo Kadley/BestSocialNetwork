@@ -60,5 +60,35 @@ services:
       # On expose le port 5434 de l'hôte vers le port 5432 du conteneur pour éviter les conflits avec une autre instance de postgres
       - '5434:5432'
 
+  posts:
+    build:
+      context: ./posts
+      dockerfile: Dockerfile
+    ports:
+      - '3002:3000'
+    volumes:
+      - ./posts:/app
+      - /app/node_modules
+    environment:
+      - DEBUG=posts:*
+    depends_on:
+      - posts_db
+    command: pnpm dev
+
+  posts_db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: postsdb
+      POSTGRES_USER: postsdb
+      POSTGRES_DB: postsdb
+    volumes:
+      - posts_db_data:/var/lib/postgresql/data
+    ports:
+      - '5435:5432'
+
+
 volumes:
   user_db_data:
+  posts_db_data:
