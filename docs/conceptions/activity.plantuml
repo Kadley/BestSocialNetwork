@@ -1,0 +1,19 @@
+@startuml activity
+
+start
+
+if (Compte existant ?) then (oui)
+    :Connexion;
+    if (Mot de passe oublié ?) then (oui)
+        :Réinitialiser le mot de passe;
+    endif
+else (non)
+    :Créer un compte;
+    :S'abonner à des comptes populaires;
+endif
+
+:Voir le feed;
+
+end
+
+@enduml

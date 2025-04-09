@@ -1,0 +1,40 @@
+@startuml usecase
+
+left to right direction
+
+actor "Visiteurs" as Visitor
+actor "Utilisateur" as User
+actor "Administrateur" as Admin
+
+
+usecase "Lire un feed" as uc1
+
+rectangle "Post" {
+   usecase "Voir des posts" as uc10
+   usecase "Créer des posts" as uc11
+   usecase "Gérer les posts" as uc12
+   usecase "Modifier ses posts" as uc32
+}
+rectangle "Utilisateurs" {
+   usecase "S'abonner à un utilisateur" as uc20
+   usecase "Discuter avec un utilisateur" as uc21
+   usecase "Gérer les utilisateurs" as uc22
+}
+rectangle "Compte" {
+    usecase "Créer un compte" as uc30
+    usecase "Se connecter" as uc31
+}
+
+User --> uc1
+User --> uc10
+User --> uc11
+User --> uc20
+User --> uc21
+User --> uc32
+Admin --> uc12
+Admin --> uc22
+Admin --> uc31
+Visitor --> uc30
+Visitor --> uc31
+
+@enduml

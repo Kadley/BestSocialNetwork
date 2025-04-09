@@ -1,0 +1,25 @@
+{
+  "width": 544,
+  "height": 347,
+  "cx": [
+    [ "ABONNEMENT", 60 ],
+    [ "UTILISATEUR", 210 ],
+    [ "PUBLIE", 339 ],
+    [ "PUBLICATION", 468 ],
+    [ "ADMIN", 210 ]
+  ],
+  "cy": [
+    [ "ABONNEMENT", 119 ],
+    [ "UTILISATEUR", 119 ],
+    [ "PUBLIE", 119 ],
+    [ "PUBLICATION", 119 ],
+    [ "ADMIN", 296 ]
+  ],
+  "shift": [
+    [ "ABONNEMENT,UTILISATEUR,-1_0", 0 ],
+    [ "ABONNEMENT,UTILISATEUR,1_0", 0 ],
+    [ "PUBLIE,UTILISATEUR,0", 0 ],
+    [ "PUBLIE,PUBLICATION,0", 0 ]
+  ],
+  "ratio": []
+}

@@ -1,0 +1,34 @@
+@startuml sequence
+
+' Diagramme de séquance pour l'affichage d'un feed
+
+actor User
+participant Feed
+participant Followee
+participant Users
+participant Posts
+
+User -> Feed: getFeed()
+activate Feed
+Feed -> Followee: getFollowees()
+activate Followee
+Followee -> Followee:filterRandom(5)
+Followee -> Posts: Posts.getPosts()
+activate Posts
+Posts -> Posts: Posts.filterUnread()
+Posts -> Posts: Posts.filterRandom(5)
+Posts -> Feed
+deactivate Posts
+deactivate Followee
+Feed -> Users: Users.getUsers()
+activate Users
+Users -> Users: Users.filterRandom(5)
+Users -> Posts: Posts.getPosts()
+activate Posts
+Posts -> Posts: Posts.filterUnread()
+Posts -> Posts: Posts.filterRandom(5)
+Posts -> Feed
+deactivate Posts
+Feed -> User
+
+@enduml

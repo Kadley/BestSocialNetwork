@@ -1,0 +1,63 @@
+@startuml deployment
+node "Utilisateur" {
+  [Navigateur Web] 
+}
+
+node "Hébergement Frontend (CDN, Vercel, Netlify, S3)" {
+  [React App]
+}
+
+node "Serveur Proxy" {
+  node "Serveur Proxy" {
+    [Node.js Proxy]
+  }
+
+  database "Redis Proxy" {
+    [Cache Redis Proxy]
+  }
+}
+
+node "Service User" {
+  node "Serveur d'API User" {
+    [Node.js API User]
+  }
+
+  database "PostgreSQL User" {
+    [Base de données PostgreSQL User]
+  }  
+}
+
+node "Service Post" {
+  node "Serveur d'API Post" {
+    [Node.js API Post]
+  }
+
+  database "PostgreSQL Post" {
+    [Base de données PostgreSQL Post]
+  }
+}
+
+node "Service Feed" {
+  node "Serveur d'API Feed" {
+    [Node.js API Feed]
+  }
+
+  database "PostgreSQL Feed" {
+    [Base de données PostgreSQL Feed]
+  }  
+}
+
+
+[Navigateur Web] -- [React App] : HTTPS
+[React App] -- [Node.js Proxy] : HTTPS
+
+[Node.js Proxy] -- [Cache Redis Proxy] : Redis
+
+[Node.js Proxy] -- [Node.js API User] : API REST
+[Node.js API User] -- [Base de données PostgreSQL User] : SQL Queries
+
+[Node.js Proxy] -- [Node.js API Post] : API REST
+[Node.js API Post] -- [Base de données PostgreSQL Post] : SQL Queries
+
+[Node.js Proxy] -- [Node.js API Feed] : API REST
+[Node.js API Feed] -- [Base de données PostgreSQL Feed] : SQL Queries

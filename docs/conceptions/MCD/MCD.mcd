@@ -1,0 +1,6 @@
+ABONNEMENT, 0N [suit] UTILISATEUR, 0N [est suivi] UTILISATEUR
+UTILISATEUR: réf. utilisateur, nom, prénom, email, mot de passe, dernière connexion, date de naissance, ville de naissance, ville, date de création, date de modification
+PUBLIE, 0N UTILISATEUR, 01 PUBLICATION
+PUBLICATION: réf. publication, contenu, date de création, date de modification
+
+ADMIN: réf. admin, email, mot de passe
