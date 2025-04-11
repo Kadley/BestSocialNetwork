@@ -11,12 +11,18 @@ importers:
       '@hono/node-server':
         specifier: ^1.14.0
         version: 1.14.0(hono@4.7.6)
+      '@hono/zod-validator':
+        specifier: ^0.4.3
+        version: 0.4.3(hono@4.7.6)(zod@3.24.2)
       '@prisma/client':
         specifier: ^6.6.0
         version: 6.6.0(prisma@6.6.0)
       hono:
         specifier: ^4.7.6
         version: 4.7.6
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@types/node':
         specifier: ^20.11.17
@@ -186,6 +192,12 @@ packages:
     peerDependencies:
       hono: ^4
 
+  '@hono/zod-validator@0.4.3':
+    resolution: {integrity: sha512-xIgMYXDyJ4Hj6ekm9T9Y27s080Nl9NXHcJkOvkXPhubOLj8hZkOL8pDnnXfvCf5xEE8Q4oMFenQUZZREUY2gqQ==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
+
   '@prisma/client@6.6.0':
     resolution: {integrity: sha512-vfp73YT/BHsWWOAuthKQ/1lBgESSqYqAWZEYyTdGXyFAHpmewwWL2Iz6ErIzkj4aHbuc6/cGSsE6ZY+pBO04Cg==}
     engines: {node: '>=18.18'}
@@ -274,6 +286,9 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@esbuild/aix-ppc64@0.25.2':
@@ -354,6 +369,11 @@ snapshots:
   '@hono/node-server@1.14.0(hono@4.7.6)':
     dependencies:
       hono: 4.7.6
+
+  '@hono/zod-validator@0.4.3(hono@4.7.6)(zod@3.24.2)':
+    dependencies:
+      hono: 4.7.6
+      zod: 3.24.2
 
   '@prisma/client@6.6.0(prisma@6.6.0)':
     optionalDependencies:
@@ -460,3 +480,5 @@ snapshots:
       fsevents: 2.3.3
 
   undici-types@6.19.8: {}
+
+  zod@3.24.2: {}

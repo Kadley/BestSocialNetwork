@@ -1,94 +1,99 @@
 services:
-  # On définit un service
-  main:
-    # On indique l'image à utiliser
+  proxy:
     build:
-      # le contexte permet de définir le répertoire (dossier) de travail
-      context: ./main
-      # On peut aussi définir le Dockerfile à utiliser
+      context: ./proxy
       dockerfile: Dockerfile
     ports:
-      # On expose le port 3000 de l'hôte vers le port 3000 du conteneur
-      # 'hote:conteneur'
-      - '3000:3000'
-    # Je vais partager un volume entre mon hôte et le conteneur
-    # volumes : permet de partager des fichiers entre l'hôte et le conteneur
+      - "3000:3000"
     volumes:
-      # On va partager le dossier ./main avec le conteneur
-      # !!!! On fait ça uniquement en développement !!!!
-      - ./main:/app
-      # Je vais ignorer le partage du dossier node_modules
-      # A chaque ajoute de dépendance, je vais devoir relancer le build
-      # Certaines dépendances sont compilées et spécifiques à une architecture (ex: macOS, Linux, Windows)
-      - /app/node_modules
-
+      - "./proxy:/app"
+      - "/app/node_modules"
     environment:
-      - DEBUG=main:*
-    # On va spécifier la commande à exécuter
+      - DEBUG=proxy:*
     command: pnpm dev
+    networks:
+      - default
 
   user:
     build:
       context: ./user
       dockerfile: Dockerfile
     ports:
-      - '3001:3000'
+      - "3001:3000"
     volumes:
-      - ./user:/app
-      - /app/node_modules
+      - "./user:/app"
+      - "/app/node_modules"
     environment:
       - DEBUG=user:*
-    # On indique que notre service user dépend du service user_db
     depends_on:
       - user_db
     command: pnpm dev
+    env_file:
+      - ./user/.env
+    networks:
+      default:
+        aliases:
+          - user
+          - user_db # ✅ Important pour que Prisma atteigne `user_db:5432`
 
   user_db:
     image: postgres
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_PASSWORD: userdb
-      POSTGRES_USER: userdb
-      POSTGRES_DB: userdb
+      - POSTGRES_PASSWORD=userdb
+      - POSTGRES_USER=userdb
+      - POSTGRES_DB=userdb
     volumes:
-      # On va partager le volume user_db_data avec le conteneur
-      # Cela va permettre de garder les données même si le conteneur est supprimé
       - user_db_data:/var/lib/postgresql/data
     ports:
-      # On fait en sorte de pouvoir accéder à la base de données depuis l'extérieur
-      # On expose le port 5434 de l'hôte vers le port 5432 du conteneur pour éviter les conflits avec une autre instance de postgres
-      - '5434:5432'
+      - "5434:5432"
+    networks:
+      default:
+        aliases:
+          - user_db # ✅ Important pour la résolution DNS
 
   posts:
     build:
       context: ./posts
       dockerfile: Dockerfile
     ports:
-      - '3002:3000'
+      - "3002:3002"
     volumes:
-      - ./posts:/app
-      - /app/node_modules
+      - "./posts:/app"
+      - "/app/node_modules"
     environment:
       - DEBUG=posts:*
     depends_on:
       - posts_db
     command: pnpm dev
+    networks:
+      default:
+        aliases:
+          - posts
+          - posts_db # utile si tu veux y faire référence aussi dans `DATABASE_URL`
 
   posts_db:
     image: postgres
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_PASSWORD: postsdb
-      POSTGRES_USER: postsdb
-      POSTGRES_DB: postsdb
+      - POSTGRES_PASSWORD=postsdb
+      - POSTGRES_USER=postsdb
+      - POSTGRES_DB=postsdb
     volumes:
-      - posts_db_data:/var/lib/postgresql/data
+      - post_db_data:/var/lib/postgresql/data
     ports:
-      - '5435:5432'
-
+      - "5435:5432"
+    networks:
+      default:
+        aliases:
+          - posts_db # ✅ essentiel pour Prisma `DATABASE_URL` côté posts
 
 volumes:
   user_db_data:
-  posts_db_data:
+  post_db_data:
+
+networks:
+  default:
+    name: s20e01-best-social-network_default

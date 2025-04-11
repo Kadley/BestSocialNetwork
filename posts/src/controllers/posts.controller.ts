@@ -1,31 +1,90 @@
-import { Hono } from 'hono'
-import { HTTPException } from 'hono/http-exception'
+import { Hono } from "hono";
+import { prisma } from "../utils/prisma.js";
 
-// Données factices pour tester
-const fakePosts = [
-  { id: '1', content: 'This is a test post 1', createdAt: new Date(), updatedAt: new Date() },
-  { id: '2', content: 'This is a test post 2', createdAt: new Date(), updatedAt: new Date() },
-  { id: '3', content: 'This is a test post 3', createdAt: new Date(), updatedAt: new Date() }
-]
+
+import { HTTPException } from "hono/http-exception";
+import { zValidator } from '@hono/zod-validator';
+import { z } from "zod";
+
+const postCreateSchema = z.object({
+  
+  content: z.string().min(1),
+  authorId: z.string().cuid(),
+})
+
+const idParamSchema = z.object({
+  id: z.string().cuid(),
+})
 
 const postRouter = new Hono()
 
-// Route pour récupérer tous les posts
-postRouter.get('/posts', async (ctx) => {
-  return ctx.json(fakePosts)  // Renvoie les données factices
-})
+postRouter.basePath('/posts')
+  .get('/', async (ctx) => {
+    const posts = await prisma.post.findMany();
+    return ctx.json(posts);
+  })
 
-// Route pour récupérer un post spécifique par son ID
-postRouter.get('/posts/:id', async (ctx) => {
-  const id = ctx.req.param('id')
-  const post = fakePosts.find((p) => p.id === id)
+  .get('/:id', zValidator('param', idParamSchema), async (ctx) => {
+    const { id } = ctx.req.valid('param');
+    const post = await prisma.post.findUnique({
+      where: { id }
+    });
 
-  // Si le post n'existe pas, renvoie une erreur 404
-  if (!post) {
-    throw new HTTPException(404, { message: 'Post not found' })
-  }
+    if (!post) {
+      throw new HTTPException(404, { message: 'Post not found' });
+    }
 
-  return ctx.json(post)  // Renvoie le post spécifique
-})
+    return ctx.json(post);
+  })
 
-export default postRouter
+  .post(
+    '/',
+    zValidator('json', postCreateSchema, (result, c) => {
+      if (!result.success) {
+        return c.json({ error: result.error }, 400)
+      }
+    })
+    ,
+    (c) => {
+      const body = c.req.valid('json')
+      return c.json({ message: 'Post reçu ✅', data: body })
+    }
+  )
+
+  .patch(
+    '/:id',
+    zValidator('param', idParamSchema),
+    zValidator('json', postCreateSchema.partial()),
+    async (ctx) => {
+      const { id } = ctx.req.valid('param');
+      const data = ctx.req.valid('json');
+  
+      const post = await prisma.post.findUnique({ where: { id } });
+      if (!post) {
+        throw new HTTPException(404, { message: 'Post not found' });
+      }
+  
+      const updatedPost = await prisma.post.update({
+        where: { id },
+        data,
+      });
+  
+      return ctx.json(updatedPost);
+    }
+  )
+  
+
+  .delete('/:id', zValidator('param', idParamSchema), async (ctx) => {
+    const { id } = ctx.req.valid('param');
+
+    const post = await prisma.post.findUnique({ where: { id } });
+    if (!post) {
+      throw new HTTPException(404, { message: 'Post not found' });
+    }
+
+    await prisma.post.delete({ where: { id } });
+
+    return ctx.json({ message: 'Post deleted' });
+  });
+
+export default postRouter;

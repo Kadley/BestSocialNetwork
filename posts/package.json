@@ -6,12 +6,28 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
+    "@hono/zod-validator": "^0.4.3",
     "@prisma/client": "^6.6.0",
-    "hono": "^4.7.6"
+    "hono": "^4.7.6",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
     "prisma": "^6.6.0",
     "tsx": "^4.7.1"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma"
+    ],
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma"
+    ]
   }
 }
